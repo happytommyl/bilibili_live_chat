@@ -1,13 +1,9 @@
 import asyncio
-from webbrowser import BackgroundBrowser
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.patch_stdout import patch_stdout
-from bilibili_api import live, sync, Credential, Danmaku
+from bilibili_api import live, Credential, Danmaku
 import configparser
-from multiprocessing import Process
-
-from test import interactive_shell
 
 
 def load_conf(path):
