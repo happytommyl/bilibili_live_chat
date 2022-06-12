@@ -52,7 +52,8 @@ async def shell(room_id, cred):
     while True:
         try:
             result = await session.prompt_async()
-            await room.send_danmaku(Danmaku(result))
+            if result != "":
+                await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
             return
 
