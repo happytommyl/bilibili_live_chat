@@ -9,23 +9,26 @@ import configparser
 def load_conf(path):
     conf = configparser.ConfigParser(interpolation=None)
     conf.read(path)
-    cred = conf.items("Credential")
-    cred = [i[1] for i in cred]
+    return conf
+
+
+def load_cred(configParser):
+    cred = configParser.items("Credential")
+    SESSDATA, buvid3, bili_jct = [i[1] for i in cred]
+    cred = Credential(sessdata=SESSDATA, bili_jct=bili_jct, buvid3=buvid3)
     return cred
 
 
-def load_room(path):
-    conf = configparser.ConfigParser(interpolation=None)
-    conf.read(path)
-    room = conf.items("Room")
+def load_room(configParser):
+    room = configParser.items("Room")
     return int(room[0][1])
 
 
-def setup():
-    SESSDATA, buvid3, bili_jct = load_conf('conf.ini')
-    room_id = load_room('conf.ini')
-    cred = Credential(sessdata=SESSDATA, bili_jct=bili_jct, buvid3=buvid3)
-
+def setup(path):
+    config = load_conf(path)
+    cred = load_cred(config)
+    room_id = load_room(config)
+    
     return [room_id, cred]
 
 
@@ -55,7 +58,7 @@ async def shell(room_id, cred):
 
 
 async def main():
-    room_id, cred = setup()
+    room_id, cred = setup('conf.ini')
     with patch_stdout():
         background_task = asyncio.create_task(
             live_chat(room_id=room_id, cred=cred))
