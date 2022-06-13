@@ -28,7 +28,7 @@ def setup(path):
     config = load_conf(path)
     cred = load_cred(config)
     room_id = load_room(config)
-    
+
     return [room_id, cred]
 
 
@@ -70,9 +70,4 @@ async def main():
         print("Quitting program")
 
 if __name__ == "__main__":
-    try:
-        from asyncio import run
-    except ImportError:
-        asyncio.run_until_complete(main())
-    else:
-        asyncio.run(main())
+    asyncio.run(main())
