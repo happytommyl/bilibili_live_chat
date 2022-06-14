@@ -58,8 +58,8 @@ async def shell(room_id, cred):
             return
 
 
-async def main():
-    room_id, cred = setup('conf.ini')
+async def main(room_id, cred):
+    
     with patch_stdout():
         background_task = asyncio.create_task(
             live_chat(room_id=room_id, cred=cred))
@@ -70,4 +70,5 @@ async def main():
         print("Quitting program")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    room_id, cred = setup('conf.ini')
+    asyncio.run(main(room_id=room_id, cred=cred))
