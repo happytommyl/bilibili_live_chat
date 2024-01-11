@@ -59,6 +59,8 @@ async def shell(room_id, cred):
     while True:
         try:
             result = await session.prompt_async()
+            if result.find("exit") == -1:
+                exit()
             if result != "":
                 await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
@@ -72,6 +74,8 @@ async def main(room_id, cred):
             live_chat(room_id=room_id, cred=cred))
         try:
             await shell(room_id=room_id, cred=cred)
+        except:
+            background_task.cancel()
         finally:
             background_task.cancel()
         print("Quitting program")
