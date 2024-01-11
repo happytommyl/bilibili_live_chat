@@ -17,8 +17,8 @@ def load_conf(path):
 def load_cred(parser):
     """return the credential infomation to login the chat room. """
     credential = parser.items("Credential")
-    sessdata, buvid3, bili_jct = [i[1] for i in credential]
-    credential = Credential(sessdata=sessdata, bili_jct=bili_jct, buvid3=buvid3)
+    sessdata, buvid3, bili_jct, DedeUserID = [i[1] for i in credential]
+    credential = Credential(sessdata=sessdata, bili_jct=bili_jct, buvid3=buvid3, dedeuserid=DedeUserID)
     return credential
 
 
@@ -59,8 +59,8 @@ async def shell(room_id, cred):
     while True:
         try:
             result = await session.prompt_async()
-            if result.find("exit") == -1:
-                exit()
+            # if result.find("exit") == -1:
+            #     exit()
             if result != "":
                 await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
@@ -74,8 +74,6 @@ async def main(room_id, cred):
             live_chat(room_id=room_id, cred=cred))
         try:
             await shell(room_id=room_id, cred=cred)
-        except:
-            background_task.cancel()
         finally:
             background_task.cancel()
         print("Quitting program")
