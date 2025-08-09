@@ -58,9 +58,11 @@ async def shell(room_id, cred):
     room = live.LiveRoom(room_id, credential=cred)
     while True:
         try:
-            result = await session.prompt_async()
-            # if result.find("exit") == -1:
-            #     exit()
+            result = str(await session.prompt_async())
+            if result.find("exit") == 0 or result.find("quit") == 0:
+                exit()
+            if result.startswith(":"):
+                exit()
             if result != "":
                 await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
