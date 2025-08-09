@@ -1,4 +1,3 @@
-*.ini
 conf.ini
 chat_room.py
 uv.lock
