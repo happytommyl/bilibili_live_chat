@@ -1,4 +1,4 @@
-*.ini~
+*.ini
 conf.ini
 chat_room.py
 test.py
