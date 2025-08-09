@@ -1,4 +1,5 @@
 *.ini
 conf.ini
 chat_room.py
-test.py
+uv.lock
+.python-version
