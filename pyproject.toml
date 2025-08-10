@@ -8,5 +8,6 @@ dependencies = [
     "asyncio>=4.0.0",
     "bilibili-api-python>=16.3.0",
     "configparser>=7.1.0",
+    "curl-cffi>=0.9.0",
     "prompt-toolkit>=3.0.51",
 ]
