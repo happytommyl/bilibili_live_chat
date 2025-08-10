@@ -2,9 +2,9 @@
 
 import asyncio
 import configparser
-from prompt_toolkit import PromptSession
+from prompt_toolkit import PromptSession, print_formatted_text
 from prompt_toolkit.patch_stdout import patch_stdout
-from bilibili_api import live, Credential, Danmaku
+from bilibili_api import live, Credential, Danmaku, ResponseCodeException
 
 
 def load_conf(path):
@@ -54,8 +54,12 @@ async def live_chat(room_id, cred):
 
 async def shell(room_id, cred):
     """a prompt session where you can type in and send chat."""
-    session = PromptSession(">>> ")
     room = live.LiveRoom(room_id, credential=cred)
+    info = await room.get_room_info()
+    info = info['anchor_info']['base_info']['uname']
+    print_formatted_text(f'已连接直播间：{info}')
+    # session = PromptSession(">>> ")
+    session = PromptSession(message=">>>", enable_history_search=True, )
     while True:
         try:
             result = str(await session.prompt_async())
@@ -67,6 +71,9 @@ async def shell(room_id, cred):
                 await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
             return
+        except (ResponseCodeException):
+            print_formatted_text("弹幕发送过快")
+            continue
 
 
 async def main(room_id, cred):
