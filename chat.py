@@ -71,8 +71,8 @@ async def shell(room_id, cred):
                 await room.send_danmaku(Danmaku(result))
         except (EOFError, KeyboardInterrupt):
             return
-        except (ResponseCodeException):
-            print_formatted_text("弹幕发送过快")
+        except (ResponseCodeException) as e:
+            print_formatted_text(e.msg)
             continue
 
 
