@@ -14,10 +14,21 @@ def load_conf(path):
     return conf
 
 
-def load_cred(parser):
-    """return the credential infomation to login the chat room. """
-    credential = parser.items("Credential")
-    sessdata, buvid3, bili_jct, DedeUserID = [i[1] for i in credential]
+def load_cred():
+    # """return the credential infomation to login the chat room. """
+    # credential = parser.items("Credential")
+    # sessdata, buvid3, bili_jct, DedeUserID = [i[1] for i in credential]
+    # credential = Credential(sessdata=sessdata, bili_jct=bili_jct, buvid3=buvid3, dedeuserid=DedeUserID)
+    # return credential
+    import json
+    with open(r"C:\Users\happy\AppData\Local\xfangfang\wiliwili\wiliwili_config.json") as f:
+        data = json.load(f)
+    
+    cookie = data["cookie"]
+    sessdata = cookie["SESSDATA"]
+    buvid3 = cookie["buvid3"]
+    bili_jct = cookie["bili_jct"]
+    DedeUserID = cookie["DedeUserID"]
     credential = Credential(sessdata=sessdata, bili_jct=bili_jct, buvid3=buvid3, dedeuserid=DedeUserID)
     return credential
 
@@ -31,7 +42,7 @@ def load_room(parser):
 def setup(path):
     """return the configuration information"""
     config = load_conf(path)
-    credential = load_cred(config)
+    credential = load_cred()
     room = load_room(config)
 
     return [room, credential]
